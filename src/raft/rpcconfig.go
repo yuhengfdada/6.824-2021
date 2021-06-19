@@ -53,11 +53,13 @@ func (rf *Raft) RequestVoteHandler(args *RequestVoteArgs, reply *RequestVoteRepl
 
 	if args.CTerm > rf.currentTerm {
 		rf.currentTerm = args.CTerm
-		rf.identity = "follower"
+		rf.changeIdentity("follower")
+		rf.votedFor = -1
 	}
 
 	if (rf.votedFor == -1 || rf.votedFor == args.CID) && rf.isCandidateMoreUTD(args) {
 		reply.VoteGranted = true
+		rf.votedFor = args.CID
 	} else {
 		reply.VoteGranted = false
 	}
@@ -119,7 +121,22 @@ type AppendEntriesReply struct {
 }
 
 func (rf *Raft) AppendEntriesHandler(args *AppendEntriesArgs, reply *AppendEntriesReply) {
-
+	rf.lock("Into AppendEntriesHandler")
+	if args.LTerm > rf.currentTerm {
+		rf.currentTerm = args.LTerm
+		rf.votedFor = -1
+		rf.changeIdentity("follower")
+	}
+	reply.Success = true
+	if len(args.Entries) == 0 { // received a heartbeat
+		reply.Term = rf.currentTerm
+		if reply.Term > args.LTerm {
+			reply.Success = false
+		} else {
+			rf.resetElectionTimer()
+		}
+	}
+	rf.unlock("Outta AppendEntriesHandler")
 }
 
 func (rf *Raft) sendAppendEntries(server int, args *AppendEntriesArgs, reply *AppendEntriesReply) bool {

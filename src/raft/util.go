@@ -17,14 +17,18 @@ func DPrintf(format string, a ...interface{}) (n int, err error) {
 }
 
 // Timer
+func (rf *Raft) calcDuration() time.Duration {
+	return time.Duration(rf.timeout+rand.Intn(300)) * time.Millisecond
+}
 func (rf *Raft) resetElectionTimer() {
 	rf.electionTimer.Stop()
-	rf.electionTimer.Reset(time.Duration(rf.timeout+rand.Intn(300)) * time.Millisecond)
+	rf.electionTimer.Reset(rf.calcDuration())
 }
 
 // Role Transition
 // Acquire lock before calling this function.
 func (rf *Raft) changeIdentity(identity string) {
+	rf.logger("change identity to " + identity)
 	rf.identity = identity
 	switch identity {
 	case "follower":
@@ -39,6 +43,15 @@ func (rf *Raft) changeIdentity(identity string) {
 	}
 }
 
+// received RPC that contains later termNum, convert to follower.
+func (rf *Raft) receivedLargerTerm(largeTerm int) {
+	rf.currentTerm = largeTerm
+	rf.votedFor = -1
+	rf.changeIdentity("follower")
+	rf.resetElectionTimer()
+	// rf.persist()
+}
+
 // Lock wrappers
 func (rf *Raft) lock(format string, a ...interface{}) {
 	rf.mu.Lock()
@@ -50,7 +63,7 @@ func (rf *Raft) unlock(format string, a ...interface{}) {
 	rf.mu.Unlock()
 }
 
-// Logger
+// Logger. Must be called with lock held.
 func (rf *Raft) logger(format string, a ...interface{}) {
 	DPrintf("me: %d, identity:%v,term:%d\n", rf.me, rf.identity, rf.currentTerm)
 	DPrintf(format, a...)

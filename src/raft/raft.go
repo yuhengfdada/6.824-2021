@@ -19,7 +19,7 @@ package raft
 
 import (
 	//	"bytes"
-	"math/rand"
+
 	"sync"
 	"sync/atomic"
 	"time"
@@ -73,8 +73,7 @@ type Raft struct {
 	timeout       int // election timeout
 	electionTimer *time.Timer
 	// metadata (for convenience)
-	numServers int
-	identity   string
+	identity string
 
 	// persistent
 	currentTerm int
@@ -91,6 +90,9 @@ type Raft struct {
 // return currentTerm and whether this server
 // believes it is the leader.
 func (rf *Raft) GetState() (int, bool) {
+	// rf.lock("into getting state")
+	rf.mu.Lock()
+	defer rf.mu.Unlock() //rf.unlock("outta getting state")
 	return rf.currentTerm, rf.identity == "leader"
 }
 
@@ -167,12 +169,20 @@ func (rf *Raft) Snapshot(index int, snapshot []byte) {
 // the leader.
 //
 func (rf *Raft) Start(command interface{}) (int, int, bool) {
-	index := -1
-	term := -1
-	isLeader := true
-
 	// Your code here (2B).
+	if rf.killed() {
+		return -1, -1, false
+	}
+	rf.lock("start lock")
+	defer rf.unlock("start lock")
+	if rf.identity != "leader" {
+		return -1, rf.currentTerm, false
+	}
 
+	index := len(rf.log)
+	term := rf.currentTerm
+	isLeader := (rf.identity == "leader")
+	go rf.startAgreement(command)
 	return index, term, isLeader
 }
 
@@ -200,7 +210,7 @@ func (rf *Raft) killed() bool {
 // The ticker go routine starts a new election if this peer hasn't received
 // heartsbeats recently.
 func (rf *Raft) ticker() {
-	for rf.killed() == false {
+	for !rf.killed() {
 		<-rf.electionTimer.C
 		rf.startElection()
 	}
@@ -225,11 +235,20 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.me = me
 
 	// Your initialization code here (2A, 2B, 2C).
+	rf.timeout = 500
+	rf.identity = "follower"
+	rf.currentTerm = 0
+	rf.votedFor = -1
+	rf.log = make([]LogEntry, 1)
+	rf.log[0] = LogEntry{Term: 0}
+
+	rf.commitIndex = 0
+	rf.lastApplied = 0
 
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
 
-	rf.electionTimer = time.NewTimer(time.Duration(rf.timeout+rand.Intn(300)) * time.Millisecond)
+	rf.electionTimer = time.NewTimer(rf.calcDuration())
 	// start ticker goroutine to start elections
 	go rf.ticker()
 
