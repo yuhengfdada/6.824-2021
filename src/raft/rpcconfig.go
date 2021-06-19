@@ -52,9 +52,7 @@ func (rf *Raft) RequestVoteHandler(args *RequestVoteArgs, reply *RequestVoteRepl
 	}
 
 	if args.CTerm > rf.currentTerm {
-		rf.currentTerm = args.CTerm
-		rf.changeIdentity("follower")
-		rf.votedFor = -1
+		rf.receivedLargerTerm(args.CTerm)
 	}
 
 	if (rf.votedFor == -1 || rf.votedFor == args.CID) && rf.isCandidateMoreUTD(args) {
@@ -122,21 +120,44 @@ type AppendEntriesReply struct {
 
 func (rf *Raft) AppendEntriesHandler(args *AppendEntriesArgs, reply *AppendEntriesReply) {
 	rf.lock("Into AppendEntriesHandler")
-	if args.LTerm > rf.currentTerm {
-		rf.currentTerm = args.LTerm
-		rf.votedFor = -1
-		rf.changeIdentity("follower")
+	defer rf.unlock("Outta AppendEntriesHandler")
+	if args.LID == rf.votedFor {
+		rf.resetElectionTimer()
 	}
+
+	if args.LTerm > rf.currentTerm {
+		rf.receivedLargerTerm(args.LTerm)
+	}
+	reply.Term = rf.currentTerm
 	reply.Success = true
-	if len(args.Entries) == 0 { // received a heartbeat
-		reply.Term = rf.currentTerm
-		if reply.Term > args.LTerm {
+	if reply.Term > args.LTerm {
+		reply.Success = false
+		return
+	} else if len(args.Entries) == 0 { // received a heartbeat
+		// rf.resetElectionTimer()
+	} else { // received an appendLog request. Only supports appending ONE entry for now.
+		// case 1: prev对不上，直接失败。
+		if len(rf.log) <= args.LPrevLogIndex || rf.log[args.LPrevLogIndex].Term != args.LPrevLogTerm {
 			reply.Success = false
+			return
 		} else {
-			rf.resetElectionTimer()
+			appendIndex := args.LPrevLogIndex + 1
+			// case 2: prev对上了，appendIndex对不上。把后面切掉。
+			if len(rf.log) > appendIndex && rf.log[appendIndex].Term != args.Entries[0].Term {
+				rf.log = rf.log[:appendIndex]
+			}
+			if len(rf.log) == appendIndex {
+				rf.log = append(rf.log, args.Entries[0])
+			}
 		}
 	}
-	rf.unlock("Outta AppendEntriesHandler")
+	if args.LeaderCommit > rf.commitIndex {
+		prevCIndex := rf.commitIndex
+		rf.commitIndex = min(args.LeaderCommit, len(rf.log)-1)
+		for i := prevCIndex + 1; i <= rf.commitIndex; i++ {
+			rf.sendApplyMsg(i)
+		}
+	}
 }
 
 func (rf *Raft) sendAppendEntries(server int, args *AppendEntriesArgs, reply *AppendEntriesReply) bool {

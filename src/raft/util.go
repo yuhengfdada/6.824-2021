@@ -16,6 +16,15 @@ func DPrintf(format string, a ...interface{}) (n int, err error) {
 	return
 }
 
+// Misc
+func min(a int, b int) int {
+	if a > b {
+		return b
+	} else {
+		return a
+	}
+}
+
 // Timer
 func (rf *Raft) calcDuration() time.Duration {
 	return time.Duration(rf.timeout+rand.Intn(300)) * time.Millisecond
@@ -38,6 +47,16 @@ func (rf *Raft) changeIdentity(identity string) {
 		rf.votedFor = rf.me // vote for self.
 		rf.resetElectionTimer()
 	case "leader":
+		// initialize leader-only DSs.
+		rf.nextIndex = make([]int, len(rf.peers))
+		rf.matchIndex = make([]int, len(rf.peers))
+		for index := range rf.peers {
+			if index == rf.me {
+				continue
+			}
+			rf.nextIndex[index] = len(rf.log)
+			rf.matchIndex[index] = 0
+		}
 		go rf.sendRegularHeartbeats()
 		rf.electionTimer.Stop() // election timeout does not work on leaders.
 	}
@@ -48,7 +67,7 @@ func (rf *Raft) receivedLargerTerm(largeTerm int) {
 	rf.currentTerm = largeTerm
 	rf.votedFor = -1
 	rf.changeIdentity("follower")
-	rf.resetElectionTimer()
+	// rf.resetElectionTimer()
 	// rf.persist()
 }
 
