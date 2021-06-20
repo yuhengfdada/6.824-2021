@@ -135,6 +135,10 @@ func (rf *Raft) AppendEntriesHandler(args *AppendEntriesArgs, reply *AppendEntri
 		return
 	} else if len(args.Entries) == 0 { // received a heartbeat
 		// rf.resetElectionTimer()
+		if len(rf.log) <= args.LPrevLogIndex || rf.log[args.LPrevLogIndex].Term != args.LPrevLogTerm {
+			reply.Success = false
+			return
+		}
 	} else { // received an appendLog request. Only supports appending ONE entry for now.
 		// case 1: prev对不上，直接失败。
 		if len(rf.log) <= args.LPrevLogIndex || rf.log[args.LPrevLogIndex].Term != args.LPrevLogTerm {
@@ -147,7 +151,7 @@ func (rf *Raft) AppendEntriesHandler(args *AppendEntriesArgs, reply *AppendEntri
 				rf.log = rf.log[:appendIndex]
 			}
 			if len(rf.log) == appendIndex {
-				rf.log = append(rf.log, args.Entries[0])
+				rf.log = append(rf.log, args.Entries...)
 			}
 		}
 	}
@@ -157,6 +161,7 @@ func (rf *Raft) AppendEntriesHandler(args *AppendEntriesArgs, reply *AppendEntri
 		for i := prevCIndex + 1; i <= rf.commitIndex; i++ {
 			rf.sendApplyMsg(i)
 		}
+		rf.lastApplied = rf.commitIndex
 	}
 }
 

@@ -210,8 +210,10 @@ func TestFailAgree2B(t *testing.T) {
 	// the full set of servers should preserve
 	// previous agreements, and be able to agree
 	// on new commands.
+	fmt.Printf("reconnected! trying 106...\n")
 	cfg.one(106, servers, true)
 	time.Sleep(RaftElectionTimeout)
+	fmt.Printf("trying 107...\n")
 	cfg.one(107, servers, true)
 
 	cfg.end()
@@ -254,6 +256,8 @@ func TestFailNoAgree2B(t *testing.T) {
 
 	// the disconnected majority may have chosen a leader from
 	// among their own ranks, forgetting index 2.
+	fmt.Printf("repaired!\n")
+
 	leader2 := cfg.checkOneLeader()
 	index2, _, ok2 := cfg.rafts[leader2].Start(30)
 	if ok2 == false {
@@ -262,7 +266,7 @@ func TestFailNoAgree2B(t *testing.T) {
 	if index2 < 2 || index2 > 3 {
 		t.Fatalf("unexpected index %v", index2)
 	}
-
+	fmt.Printf("before the last test...\n")
 	cfg.one(1000, servers, true)
 
 	cfg.end()
@@ -396,12 +400,12 @@ func TestRejoin2B(t *testing.T) {
 
 	// old leader connected again
 	cfg.connect(leader1)
-
+	fmt.Printf("adding 104...\n")
 	cfg.one(104, 2, true)
 
 	// all together now
 	cfg.connect(leader2)
-
+	fmt.Printf("reconnected, adding 105...\n")
 	cfg.one(105, servers, true)
 
 	cfg.end()

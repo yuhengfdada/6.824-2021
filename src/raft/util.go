@@ -27,7 +27,7 @@ func min(a int, b int) int {
 
 // Timer
 func (rf *Raft) calcDuration() time.Duration {
-	return time.Duration(rf.timeout+rand.Intn(300)) * time.Millisecond
+	return time.Duration(rf.timeout+rand.Intn(600)) * time.Millisecond
 }
 func (rf *Raft) resetElectionTimer() {
 	rf.electionTimer.Stop()
@@ -84,6 +84,6 @@ func (rf *Raft) unlock(format string, a ...interface{}) {
 
 // Logger. Must be called with lock held.
 func (rf *Raft) logger(format string, a ...interface{}) {
-	DPrintf("me: %d, identity:%v,term:%d\n", rf.me, rf.identity, rf.currentTerm)
+	DPrintf("me: %d, identity:%v, term:%d, leader:%d\n", rf.me, rf.identity, rf.currentTerm, rf.votedFor)
 	DPrintf(format, a...)
 }

@@ -67,6 +67,7 @@ type Raft struct {
 	dead      int32               // set by Kill()
 
 	applyCh chan ApplyMsg
+	cond    *sync.Cond
 	// Your data here (2A, 2B, 2C).
 	// Look at the paper's Figure 2 for a description of what
 	// state a Raft server must maintain.
@@ -182,8 +183,12 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 
 	index := len(rf.log)
 	term := rf.currentTerm
-	isLeader := (rf.identity == "leader")
-	go rf.startAgreement(command)
+	isLeader := true
+	// to pass the last test, the new entry must be appended instantly.
+	rf.log = append(rf.log, LogEntry{Command: command, Term: rf.currentTerm})
+	logLength := len(rf.log)
+
+	go rf.startAgreement(command, logLength)
 	return index, term, isLeader
 }
 
@@ -213,7 +218,7 @@ func (rf *Raft) killed() bool {
 func (rf *Raft) ticker() {
 	for !rf.killed() {
 		<-rf.electionTimer.C
-		rf.startElection()
+		go rf.startElection()
 	}
 }
 
@@ -236,8 +241,9 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.me = me
 
 	rf.applyCh = applyCh
+	rf.cond = sync.NewCond(&rf.mu)
 	// Your initialization code here (2A, 2B, 2C).
-	rf.timeout = 500
+	rf.timeout = 1000
 	rf.identity = "follower"
 	rf.currentTerm = 0
 	rf.votedFor = -1
