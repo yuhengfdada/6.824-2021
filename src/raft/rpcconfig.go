@@ -58,6 +58,7 @@ func (rf *Raft) RequestVoteHandler(args *RequestVoteArgs, reply *RequestVoteRepl
 	if (rf.votedFor == -1 || rf.votedFor == args.CID) && rf.isCandidateMoreUTD(args) {
 		reply.VoteGranted = true
 		rf.votedFor = args.CID
+		rf.persist()
 	} else {
 		reply.VoteGranted = false
 	}
@@ -147,7 +148,9 @@ func (rf *Raft) AppendEntriesHandler(args *AppendEntriesArgs, reply *AppendEntri
 			appendIndex := args.LPrevLogIndex + 1
 			// case 2: prev对上了，直接后面全切，append上对的entries。
 			rf.log = rf.log[:appendIndex]
+			rf.persist()
 			rf.log = append(rf.log, args.Entries...)
+			rf.persist()
 		}
 	}
 	if args.LeaderCommit > rf.commitIndex {

@@ -37,6 +37,7 @@ func (rf *Raft) checkConsistency(args *AppendEntriesArgs, reply *AppendEntriesRe
 	}
 	return true
 }
+
 func (rf *Raft) findBadIndex(badTerm int) int {
 	for index, entry := range rf.log {
 		if entry.Term == badTerm {
@@ -66,6 +67,7 @@ func (rf *Raft) changeIdentity(identity string) {
 	case "candidate":
 		rf.currentTerm += 1
 		rf.votedFor = rf.me // vote for self.
+		rf.persist()
 		rf.resetElectionTimer()
 	case "leader":
 		// initialize leader-only DSs.
@@ -87,6 +89,7 @@ func (rf *Raft) changeIdentity(identity string) {
 func (rf *Raft) receivedLargerTerm(largeTerm int) {
 	rf.currentTerm = largeTerm
 	rf.votedFor = -1
+	rf.persist()
 	rf.changeIdentity("follower")
 	// rf.resetElectionTimer()
 	// rf.persist()
