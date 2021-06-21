@@ -58,6 +58,7 @@ func (rf *Raft) RequestVoteHandler(args *RequestVoteArgs, reply *RequestVoteRepl
 	if (rf.votedFor == -1 || rf.votedFor == args.CID) && rf.isCandidateMoreUTD(args) {
 		reply.VoteGranted = true
 		rf.votedFor = args.CID
+		rf.persist()
 	} else {
 		reply.VoteGranted = false
 	}
@@ -114,8 +115,9 @@ type AppendEntriesArgs struct {
 //
 type AppendEntriesReply struct {
 	// Your data here (2A).
-	Term    int
-	Success bool
+	Term         int
+	Success      bool
+	NewNextIndex int
 }
 
 func (rf *Raft) AppendEntriesHandler(args *AppendEntriesArgs, reply *AppendEntriesReply) {
@@ -135,24 +137,20 @@ func (rf *Raft) AppendEntriesHandler(args *AppendEntriesArgs, reply *AppendEntri
 		return
 	} else if len(args.Entries) == 0 { // received a heartbeat
 		// rf.resetElectionTimer()
-		if len(rf.log) <= args.LPrevLogIndex || rf.log[args.LPrevLogIndex].Term != args.LPrevLogTerm {
-			reply.Success = false
+		if !rf.checkConsistency(args, reply) {
 			return
 		}
 	} else { // received an appendLog request. Only supports appending ONE entry for now.
 		// case 1: prev对不上，直接失败。
-		if len(rf.log) <= args.LPrevLogIndex || rf.log[args.LPrevLogIndex].Term != args.LPrevLogTerm {
-			reply.Success = false
+		if !rf.checkConsistency(args, reply) {
 			return
 		} else {
 			appendIndex := args.LPrevLogIndex + 1
-			// case 2: prev对上了，appendIndex对不上。把后面切掉。
-			if len(rf.log) > appendIndex && rf.log[appendIndex].Term != args.Entries[0].Term {
-				rf.log = rf.log[:appendIndex]
-			}
-			if len(rf.log) == appendIndex {
-				rf.log = append(rf.log, args.Entries...)
-			}
+			// case 2: prev对上了，直接后面全切，append上对的entries。
+			rf.log = rf.log[:appendIndex]
+			rf.persist()
+			rf.log = append(rf.log, args.Entries...)
+			rf.persist()
 		}
 	}
 	if args.LeaderCommit > rf.commitIndex {
