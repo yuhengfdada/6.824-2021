@@ -186,9 +186,9 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	isLeader := true
 	// to pass the last test, the new entry must be appended instantly.
 	rf.log = append(rf.log, LogEntry{Command: command, Term: rf.currentTerm})
-	logLength := len(rf.log)
+	//logLength := len(rf.log)
 
-	go rf.startAgreement(command, logLength)
+	//go rf.startAgreement(command, logLength)
 	return index, term, isLeader
 }
 

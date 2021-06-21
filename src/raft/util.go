@@ -25,6 +25,27 @@ func min(a int, b int) int {
 	}
 }
 
+func (rf *Raft) checkConsistency(args *AppendEntriesArgs, reply *AppendEntriesReply) bool {
+	if len(rf.log) <= args.LPrevLogIndex {
+		reply.Success = false
+		reply.NewNextIndex = len(rf.log)
+		return false
+	} else if rf.log[args.LPrevLogIndex].Term != args.LPrevLogTerm {
+		reply.Success = false
+		reply.NewNextIndex = rf.findBadIndex(rf.log[args.LPrevLogIndex].Term)
+		return false
+	}
+	return true
+}
+func (rf *Raft) findBadIndex(badTerm int) int {
+	for index, entry := range rf.log {
+		if entry.Term == badTerm {
+			return index
+		}
+	}
+	return -1
+}
+
 // Timer
 func (rf *Raft) calcDuration() time.Duration {
 	return time.Duration(rf.timeout+rand.Intn(600)) * time.Millisecond
