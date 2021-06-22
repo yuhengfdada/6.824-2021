@@ -69,7 +69,10 @@ type Raft struct {
 	dead      int32               // set by Kill()
 
 	applyCh chan ApplyMsg
-	cond    *sync.Cond
+
+	// snapshot
+	lastInstalledIndex int
+
 	// Your data here (2A, 2B, 2C).
 	// Look at the paper's Figure 2 for a description of what
 	// state a Raft server must maintain.
@@ -209,7 +212,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 		return -1, rf.currentTerm, false
 	}
 
-	index := len(rf.log)
+	index := len(rf.log) + rf.lastInstalledIndex + 1
 	term := rf.currentTerm
 	isLeader := true
 	// to pass the last test, the new entry must be appended instantly.
@@ -270,7 +273,7 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.me = me
 
 	rf.applyCh = applyCh
-	rf.cond = sync.NewCond(&rf.mu)
+
 	// Your initialization code here (2A, 2B, 2C).
 	rf.timeout = 1000
 	rf.identity = "follower"
@@ -281,6 +284,8 @@ func Make(peers []*labrpc.ClientEnd, me int,
 
 	rf.commitIndex = 0
 	rf.lastApplied = 0
+
+	rf.lastInstalledIndex = -1
 
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
