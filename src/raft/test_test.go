@@ -1031,7 +1031,9 @@ func snapcommon(t *testing.T, name string, disconnect bool, reliable bool, crash
 	cfg.one(rand.Int(), servers, true)
 	leader1 := cfg.checkOneLeader()
 
+	fmt.Printf("start iterations\n")
 	for i := 0; i < iters; i++ {
+		fmt.Printf("iteration %d\n", i)
 		victim := (leader1 + 1) % servers
 		sender := leader1
 		if i%3 == 1 {

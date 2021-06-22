@@ -7,7 +7,7 @@ import (
 )
 
 // Debugging
-const Debug = false
+const Debug = true
 
 func DPrintf(format string, a ...interface{}) (n int, err error) {
 	if Debug {
@@ -25,26 +25,55 @@ func min(a int, b int) int {
 	}
 }
 
+// append
 func (rf *Raft) checkConsistency(args *AppendEntriesArgs, reply *AppendEntriesReply) bool {
-	if len(rf.log) <= args.LPrevLogIndex {
+	if rf.absoluteLength() <= args.LPrevLogIndex {
 		reply.Success = false
-		reply.NewNextIndex = len(rf.log)
+		reply.NewNextIndex = rf.absoluteLength()
 		return false
-	} else if rf.log[args.LPrevLogIndex].Term != args.LPrevLogTerm {
+
+	} else if rf.findLogTermByAbsoluteIndex(args.LPrevLogIndex) != args.LPrevLogTerm {
 		reply.Success = false
-		reply.NewNextIndex = rf.findBadIndex(rf.log[args.LPrevLogIndex].Term)
+		reply.NewNextIndex = rf.findBadIndex(rf.findLogTermByAbsoluteIndex(args.LPrevLogIndex))
 		return false
 	}
 	return true
 }
 
 func (rf *Raft) findBadIndex(badTerm int) int {
+	if rf.lastInstalledTerm == badTerm {
+		return rf.lastInstalledIndex
+	}
 	for index, entry := range rf.log {
 		if entry.Term == badTerm {
-			return index
+			return rf.absoluteIndex(index)
 		}
 	}
 	return -1
+}
+
+// snapshot
+func (rf *Raft) absoluteLength() int {
+	return len(rf.log) + rf.lastInstalledIndex + 1
+}
+
+func (rf *Raft) relativeIndex(absoluteIndex int) int {
+	return absoluteIndex - rf.lastInstalledIndex - 1
+}
+
+func (rf *Raft) absoluteIndex(relativeIndex int) int {
+	return relativeIndex + rf.lastInstalledIndex + 1
+}
+
+func (rf *Raft) findLogTermByAbsoluteIndex(absoluteIndex int) int {
+	if len(rf.log) == 0 || absoluteIndex == rf.lastInstalledIndex {
+		if absoluteIndex < rf.lastInstalledIndex {
+			panic("findLogTermByAbsoluteIndex(): invalid index")
+		}
+		return rf.lastInstalledTerm
+	} else {
+		return rf.log[rf.relativeIndex(absoluteIndex)].Term
+	}
 }
 
 // Timer
@@ -77,7 +106,7 @@ func (rf *Raft) changeIdentity(identity string) {
 			if index == rf.me {
 				continue
 			}
-			rf.nextIndex[index] = len(rf.log)
+			rf.nextIndex[index] = rf.absoluteLength()
 			rf.matchIndex[index] = 0
 		}
 		go rf.sendRegularHeartbeats()

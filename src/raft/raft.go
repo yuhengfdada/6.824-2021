@@ -72,7 +72,9 @@ type Raft struct {
 
 	// snapshot
 	lastInstalledIndex int
-
+	lastInstalledTerm  int
+	snapshot           []byte
+	snapshotUTD        bool
 	// Your data here (2A, 2B, 2C).
 	// Look at the paper's Figure 2 for a description of what
 	// state a Raft server must maintain.
@@ -124,6 +126,10 @@ func (rf *Raft) persist() {
 	e.Encode(rf.votedFor)
 	e.Encode(rf.log)
 	e.Encode(rf.commitIndex)
+
+	e.Encode(rf.lastInstalledIndex)
+	e.Encode(rf.lastInstalledTerm)
+	e.Encode(rf.snapshot)
 	data := w.Bytes()
 	rf.persister.SaveRaftState(data)
 
@@ -156,14 +162,21 @@ func (rf *Raft) readPersist(data []byte) {
 	var votedFor int
 	var log []LogEntry
 	var commitIndex int
+	var lastInstalledIndex int
+	var lastInstalledTerm int
+	var snapshot []byte
 	if d.Decode(&currentTerm) != nil ||
-		d.Decode(&votedFor) != nil || d.Decode(&log) != nil || d.Decode(&commitIndex) != nil {
+		d.Decode(&votedFor) != nil || d.Decode(&log) != nil || d.Decode(&commitIndex) != nil ||
+		d.Decode(&lastInstalledIndex) != nil || d.Decode(&lastInstalledTerm) != nil || d.Decode(&snapshot) != nil {
 		panic("readPersist error!")
 	} else {
 		rf.currentTerm = currentTerm
 		rf.votedFor = votedFor
 		rf.log = log
 		rf.commitIndex = commitIndex
+		rf.lastInstalledIndex = lastInstalledIndex
+		rf.lastInstalledTerm = lastInstalledTerm
+		rf.snapshot = snapshot
 	}
 }
 
@@ -172,9 +185,30 @@ func (rf *Raft) readPersist(data []byte) {
 // have more recent info since it communicate the snapshot on applyCh.
 //
 func (rf *Raft) CondInstallSnapshot(lastIncludedTerm int, lastIncludedIndex int, snapshot []byte) bool {
-
 	// Your code here (2D).
+	rf.lock("CondInstallSnapshot()")
+	rf.unlock("exiting CondInstallSnapshot()")
+	if !rf.snapshotUTD {
+		return false
+	}
+	// install coming snapshot.
 
+	// cut log entries.
+	relIndex := rf.relativeIndex(lastIncludedIndex)
+	// 收到了已经安装好的snapshot
+	if len(rf.log) != 0 && relIndex < 0 {
+		return false
+	}
+	rf.lastInstalledIndex = lastIncludedIndex
+	rf.lastInstalledTerm = lastIncludedTerm
+	rf.snapshot = snapshot
+	rf.persist()
+	if relIndex >= len(rf.log)-1 {
+		rf.log = make([]LogEntry, 0)
+	} else {
+		rf.log = rf.log[relIndex:]
+	}
+	rf.persist()
 	return true
 }
 
@@ -184,7 +218,20 @@ func (rf *Raft) CondInstallSnapshot(lastIncludedTerm int, lastIncludedIndex int,
 // that index. Raft should now trim its log as much as possible.
 func (rf *Raft) Snapshot(index int, snapshot []byte) {
 	// Your code here (2D).
-
+	rf.lock("snapshot received from service")
+	defer rf.unlock("exiting snapshot()")
+	rf.snapshot = snapshot
+	rf.persist()
+	// rf.snapshotUTD = true
+	relIndex := rf.relativeIndex(index)
+	rf.lastInstalledIndex = index
+	rf.lastInstalledTerm = rf.log[relIndex].Term
+	if relIndex == len(rf.log)-1 {
+		rf.log = make([]LogEntry, 0)
+	} else {
+		rf.log = rf.log[relIndex:]
+	}
+	rf.persist()
 }
 
 //
@@ -212,7 +259,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 		return -1, rf.currentTerm, false
 	}
 
-	index := len(rf.log) + rf.lastInstalledIndex + 1
+	index := rf.absoluteLength()
 	term := rf.currentTerm
 	isLeader := true
 	// to pass the last test, the new entry must be appended instantly.
@@ -286,7 +333,8 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.lastApplied = 0
 
 	rf.lastInstalledIndex = -1
-
+	rf.lastInstalledTerm = 0
+	rf.snapshotUTD = false
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
 

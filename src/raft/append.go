@@ -15,8 +15,8 @@ func (rf *Raft) sendRegularHeartbeats() {
 		args := AppendEntriesArgs{
 			LTerm:         rf.currentTerm,
 			LID:           rf.me,
-			LPrevLogIndex: len(rf.log) - 1,
-			LPrevLogTerm:  rf.log[len(rf.log)-1].Term,
+			LPrevLogIndex: rf.absoluteLength() - 1,
+			LPrevLogTerm:  rf.findLogTermByAbsoluteIndex(rf.absoluteLength() - 1),
 			Entries:       make([]LogEntry, 0),
 			LeaderCommit:  rf.commitIndex,
 		}
@@ -50,19 +50,28 @@ func (rf *Raft) sendRegularHeartbeats() {
 // precondition: inconsistent log
 func (rf *Raft) forceUpdate(index int) {
 	for !rf.killed() {
-		rf.lock("force update lock")
+		rf.lock("force update lock, updating server %d", index)
 		if rf.identity != "leader" {
 			rf.unlock("force update lock_not leader")
 			return
 		}
-		logLength := len(rf.log)
+		// invariant: nextIndex is always in log, but not nextIndex-1
+		// guranteed by: line "if reply.NewNextIndex <= rf.lastInstalledIndex"
+		logLength := rf.absoluteLength()
 		nextIndex := rf.nextIndex[index]
+		// when a new snapshot is installed, nextIndex can be stale. Normally
+		if nextIndex <= rf.lastInstalledIndex {
+			// rf.logger("nextIndex stale; go sendInstall RPC")
+			rf.sendInstall(index)
+			// rf.unlock("force update lock_stale nextIndex")
+			return
+		}
 		args := AppendEntriesArgs{}
 		args.LTerm = rf.currentTerm
 		args.LID = rf.me
-		args.Entries = rf.log[nextIndex:]
+		args.Entries = rf.log[rf.relativeIndex(nextIndex):]
 		args.LPrevLogIndex = nextIndex - 1
-		args.LPrevLogTerm = rf.log[nextIndex-1].Term
+		args.LPrevLogTerm = rf.findLogTermByAbsoluteIndex(nextIndex - 1)
 		args.LeaderCommit = rf.commitIndex
 
 		rf.unlock("force update lock")
@@ -82,6 +91,7 @@ func (rf *Raft) forceUpdate(index int) {
 		}
 		if reply.Success {
 			rf.lock("force update success lock")
+			rf.logger("log length: %d", logLength)
 			rf.nextIndex[index] = logLength
 			rf.matchIndex[index] = logLength - 1
 			// figure 2 last sentence. Not easy to implement!
@@ -91,7 +101,13 @@ func (rf *Raft) forceUpdate(index int) {
 		}
 		rf.lock("force update failed lock")
 		rf.logger("reply from server %d, with NewNextIndex = %d", index, reply.NewNextIndex)
+
+		if reply.NewNextIndex <= rf.lastInstalledIndex { // extremely slow peer
+			rf.sendInstall(index)
+			return
+		}
 		rf.nextIndex[index] = reply.NewNextIndex
+
 		rf.unlock("force update failed lock")
 	}
 }
@@ -99,7 +115,8 @@ func (rf *Raft) forceUpdate(index int) {
 // Hold lock before calling this function.
 func (rf *Raft) checkMatchIndex() {
 	//自己永远match到最后
-	rf.matchIndex[rf.me] = len(rf.log) - 1
+	rf.logger("log length: %d", rf.absoluteLength())
+	rf.matchIndex[rf.me] = rf.absoluteLength() - 1
 	// check condition.
 	threshold := len(rf.peers) / 2
 	count := 0
@@ -114,14 +131,14 @@ func (rf *Raft) checkMatchIndex() {
 	}
 	if count > threshold {
 		for i := minValue; i > rf.commitIndex; i-- {
-			if rf.log[i].Term == rf.currentTerm {
+			if rf.findLogTermByAbsoluteIndex(i) == rf.currentTerm {
 				prevCIndex := rf.commitIndex
 				rf.commitIndex = i
 				// don't forget to check whether commitIndex > lastApplied. If so, apply new commits.
-				for j := prevCIndex + 1; j <= rf.commitIndex; j++ {
+				for j := prevCIndex + 1; j <= i; j++ {
 					rf.sendApplyMsg(j)
+					rf.lastApplied = j
 				}
-				rf.lastApplied = rf.commitIndex
 				break
 			}
 		}
@@ -130,10 +147,14 @@ func (rf *Raft) checkMatchIndex() {
 }
 
 func (rf *Raft) sendApplyMsg(index int) {
+	rf.logger("sending applyMsg for index %d", index)
 	applyMsg := ApplyMsg{
 		CommandValid: true,
-		Command:      rf.log[index].Command,
+		Command:      rf.log[rf.relativeIndex(index)].Command,
 		CommandIndex: index,
 	}
+	rf.unlock("applyMsg lock")
+	// this line can block if the test code is gonna call Snapshot().
 	rf.applyCh <- applyMsg
+	rf.lock("applyMsg reacquire lock")
 }

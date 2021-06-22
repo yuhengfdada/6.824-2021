@@ -1,0 +1,638 @@
+warning: only one CPU, which may conceal locking bugs
+Test (2D): snapshots basic ...
+2021/06/22 08:04:52 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 acquire lock start lock
+2021/06/22 08:04:52 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 release lock start lock
+2021/06/22 08:04:52 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 acquire lock start lock
+2021/06/22 08:04:52 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 release lock start lock
+2021/06/22 08:04:52 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 acquire lock start lock
+2021/06/22 08:04:52 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 release lock start lock
+2021/06/22 08:04:52 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 acquire lock start lock
+2021/06/22 08:04:52 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 release lock start lock
+2021/06/22 08:04:52 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 acquire lock start lock
+2021/06/22 08:04:52 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 release lock start lock
+2021/06/22 08:04:52 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 acquire lock start lock
+2021/06/22 08:04:52 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:52 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock start-election
+2021/06/22 08:04:53 me: 2, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 change identity to candidate
+2021/06/22 08:04:53 me: 2, identity:candidate, term:1, leader:2
+2021/06/22 08:04:53 release lock start-election
+2021/06/22 08:04:53 me: 1, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock RVHandler lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:1, leader:-1
+2021/06/22 08:04:53 change identity to follower
+2021/06/22 08:04:53 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:53 release lock RVHandler lock
+2021/06/22 08:04:53 me: 2, identity:candidate, term:1, leader:2
+2021/06/22 08:04:53 acquire lock start_ele2
+2021/06/22 08:04:53 me: 2, identity:candidate, term:1, leader:2
+2021/06/22 08:04:53 before try change to leader,count:2, args:{CTerm:1 CID:2 CLastLogIndex:0 CLastLogTerm:0}
+2021/06/22 08:04:53 me: 2, identity:candidate, term:1, leader:2
+2021/06/22 08:04:53 change identity to leader
+2021/06/22 08:04:53 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:53 release lock start_ele2
+2021/06/22 08:04:53 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:53 acquire lock HB lock
+2021/06/22 08:04:53 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:53 release lock HB lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:53 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:53 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:53 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:53 me: 0, identity:follower, term:0, leader:-1
+2021/06/22 08:04:53 acquire lock RVHandler lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:1, leader:-1
+2021/06/22 08:04:53 change identity to follower
+2021/06/22 08:04:53 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:53 release lock RVHandler lock
+2021/06/22 08:04:53 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:53 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:53 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:53 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:53 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:53 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:53 acquire lock start lock
+2021/06/22 08:04:53 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:53 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock HB lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock HB lock
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock force update lock, updating server 0
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock force update lock
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock force update success lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 log length: 2
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 log length: 2
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 1
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock force update success lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock force update lock, updating server 1
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock force update lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 1
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock force update success lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 log length: 2
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 log length: 2
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock force update success lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock HB lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock HB lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 1
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock HB lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock HB lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock HB lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock HB lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock HB lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock HB lock
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+start iterations
+iteration 0
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock start lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock HB lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock HB lock
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock force update lock, updating server 0
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock force update lock
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 0, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock force update success lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 log length: 14
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 log length: 14
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 2
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock force update lock, updating server 1
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock force update lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock Into AppendEntriesHandler
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 2
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 3
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 4
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 5
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 6
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 7
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 8
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 9
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock snapshot received from service
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock exiting snapshot()
+config: snapshot created, last included index 9
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 10
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 11
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 12
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 13
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 1, identity:follower, term:1, leader:2
+2021/06/22 08:04:54 release lock Outta AppendEntriesHandler
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 3
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 4
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 5
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 6
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 7
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 8
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 9
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 10
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock force update success lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 log length: 14
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 log length: 14
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock force update success lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock snapshot received from service
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock exiting snapshot()
+config: snapshot created, last included index 9
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 acquire lock applyMsg reacquire lock
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 sending applyMsg for index 11
+2021/06/22 08:04:54 me: 2, identity:leader, term:1, leader:2
+2021/06/22 08:04:54 release lock applyMsg lock
+2021/06/22 08:04:54 2: log map[1:5188211469382092722 2:969657648264779749 3:2885583178941118 4:2241502193018382620 5:5902737941303939689 6:6489733134683866839 7:4449285161700252208 8:8209629042020395168 9:7303269467251723600]; server map[1:5188211469382092722 2:969657648264779749 3:2885583178941118 4:2241502193018382620 5:5902737941303939689 6:6489733134683866839 7:4449285161700252208 8:8209629042020395168 9:7303269467251723600 10:7303269467251723600 11:2903482006358344374 12:1663002128263873857 13:2711318992458902571]
+2021/06/22 08:04:54 apply error: commit index=10 server=2 2903482006358344374 != server=1 7303269467251723600
+exit status 1
+FAIL	6.824/raft	1.935s

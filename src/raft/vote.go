@@ -10,8 +10,8 @@ func (rf *Raft) startElection() {
 	// fill in args.
 	args := RequestVoteArgs{}
 	args.CID = rf.me
-	args.CLastLogIndex = len(rf.log) - 1
-	args.CLastLogTerm = rf.log[args.CLastLogIndex].Term
+	args.CLastLogIndex = rf.absoluteLength() - 1
+	args.CLastLogTerm = rf.findLogTermByAbsoluteIndex(args.CLastLogIndex)
 	args.CTerm = rf.currentTerm
 	// rf.logger("args.currentTerm: "itoa(args.CTerm))
 	rf.unlock("start-election")

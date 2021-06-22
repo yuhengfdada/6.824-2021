@@ -25,11 +25,11 @@ type RequestVoteReply struct {
 // helper function to determine whether to vote in RVHandler.
 // Acquire lock before calling this function.
 func (rf *Raft) isCandidateMoreUTD(args *RequestVoteArgs) bool {
-	lastIndex := len(rf.log) - 1
-	if args.CLastLogTerm > rf.log[lastIndex].Term {
+	lastIndex := rf.absoluteLength() - 1
+	if args.CLastLogTerm > rf.findLogTermByAbsoluteIndex(lastIndex) {
 		return true
 	}
-	if args.CLastLogTerm == rf.log[lastIndex].Term {
+	if args.CLastLogTerm == rf.findLogTermByAbsoluteIndex(lastIndex) {
 		if args.CLastLogIndex >= lastIndex {
 			return true
 		}
@@ -145,9 +145,10 @@ func (rf *Raft) AppendEntriesHandler(args *AppendEntriesArgs, reply *AppendEntri
 		if !rf.checkConsistency(args, reply) {
 			return
 		} else {
-			appendIndex := args.LPrevLogIndex + 1
+			absAppendIndex := args.LPrevLogIndex + 1
+			relAppendIndex := rf.relativeIndex(absAppendIndex)
 			// case 2: prev对上了，直接后面全切，append上对的entries。
-			rf.log = rf.log[:appendIndex]
+			rf.log = rf.log[:relAppendIndex]
 			rf.persist()
 			rf.log = append(rf.log, args.Entries...)
 			rf.persist()
@@ -155,15 +156,53 @@ func (rf *Raft) AppendEntriesHandler(args *AppendEntriesArgs, reply *AppendEntri
 	}
 	if args.LeaderCommit > rf.commitIndex {
 		prevCIndex := rf.commitIndex
-		rf.commitIndex = min(args.LeaderCommit, len(rf.log)-1)
+		rf.commitIndex = min(args.LeaderCommit, rf.absoluteLength()-1)
 		for i := prevCIndex + 1; i <= rf.commitIndex; i++ {
 			rf.sendApplyMsg(i)
 		}
 		rf.lastApplied = rf.commitIndex
 	}
+
+	rf.snapshotUTD = false
 }
 
 func (rf *Raft) sendAppendEntries(server int, args *AppendEntriesArgs, reply *AppendEntriesReply) bool {
 	ok := rf.peers[server].Call("Raft.AppendEntriesHandler", args, reply)
+	return ok
+}
+
+type InstallSnapshotArgs struct {
+	LTerm              int
+	LID                int
+	LastInstalledIndex int
+	LastInstalledTerm  int
+	Snapshot           []byte
+}
+
+type InstallSnapshotReply struct {
+	Term int
+}
+
+func (rf *Raft) InstallSnapshotHandler(args *InstallSnapshotArgs, reply *InstallSnapshotReply) {
+	rf.lock("Into InstallSnapshotHandler")
+	defer rf.unlock("Outta InstallSnapshotHandler")
+	if args.LID == rf.votedFor {
+		rf.resetElectionTimer()
+	}
+	if args.LTerm > rf.currentTerm {
+		rf.receivedLargerTerm(args.LTerm)
+	}
+	reply.Term = rf.currentTerm
+	if reply.Term > args.LTerm {
+		return
+	}
+	rf.snapshotUTD = true
+
+	// try apply snapshots.
+	rf.sendApplySS(args.Snapshot, args.LastInstalledTerm, args.LastInstalledIndex)
+}
+
+func (rf *Raft) sendInstallSnapshot(server int, args *InstallSnapshotArgs, reply *InstallSnapshotReply) bool {
+	ok := rf.peers[server].Call("Raft.InstallSnapshotHandler", args, reply)
 	return ok
 }

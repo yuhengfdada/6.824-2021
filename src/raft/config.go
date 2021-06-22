@@ -222,6 +222,7 @@ func (cfg *config) applierSnap(i int, applyCh chan ApplyMsg) {
 				v := m.Command
 				e.Encode(v)
 				cfg.rafts[i].Snapshot(m.CommandIndex, w.Bytes())
+				fmt.Printf("config: snapshot created, last included index %d\n", m.CommandIndex)
 			}
 		} else {
 			// Ignore other types of ApplyMsg or old
