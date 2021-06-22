@@ -210,6 +210,9 @@ func (cfg *config) applierSnap(i int, applyCh chan ApplyMsg) {
 				err_msg = fmt.Sprintf("server %v apply out of order %v", i, m.CommandIndex)
 			}
 			if err_msg != "" {
+				for i := 0; i < len(cfg.rafts); i++ {
+					cfg.rafts[i].PrintCompleteLog()
+				}
 				log.Fatalf("apply error: %v\n", err_msg)
 				cfg.applyErr[i] = err_msg
 				// keep reading after error so that Raft doesn't block
@@ -222,6 +225,9 @@ func (cfg *config) applierSnap(i int, applyCh chan ApplyMsg) {
 				v := m.Command
 				e.Encode(v)
 				cfg.rafts[i].Snapshot(m.CommandIndex, w.Bytes())
+				for i := 0; i < len(cfg.rafts); i++ {
+					cfg.rafts[i].PrintCompleteLog()
+				}
 				fmt.Printf("config: snapshot created, last included index %d\n", m.CommandIndex)
 			}
 		} else {

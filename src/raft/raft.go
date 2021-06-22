@@ -191,24 +191,24 @@ func (rf *Raft) CondInstallSnapshot(lastIncludedTerm int, lastIncludedIndex int,
 	if !rf.snapshotUTD {
 		return false
 	}
-	// install coming snapshot.
 
-	// cut log entries.
-	relIndex := rf.relativeIndex(lastIncludedIndex)
-	// 收到了已经安装好的snapshot
-	if len(rf.log) != 0 && relIndex < 0 {
-		return false
+	// relIndex := rf.relativeIndex(lastIncludedIndex)
+
+	// cut log entries according to the rules.
+	if rf.containsIndexTerm(lastIncludedIndex, lastIncludedTerm) {
+		rf.log = rf.log[rf.relativeIndex(lastIncludedIndex+1):]
+	} else {
+		rf.log = make([]LogEntry, 0)
 	}
+	rf.persist()
+	// install coming snapshot.(install是必然要install的)
 	rf.lastInstalledIndex = lastIncludedIndex
 	rf.lastInstalledTerm = lastIncludedTerm
 	rf.snapshot = snapshot
 	rf.persist()
-	if relIndex >= len(rf.log)-1 {
-		rf.log = make([]LogEntry, 0)
-	} else {
-		rf.log = rf.log[relIndex:]
-	}
-	rf.persist()
+	// 照理来说，snapshot包括的部分应该被视为committed and applied.
+	rf.commitIndex = max(rf.commitIndex, lastIncludedIndex) // 先这么写着
+	rf.lastApplied = max(rf.lastApplied, lastIncludedIndex)
 	return true
 }
 
@@ -229,7 +229,7 @@ func (rf *Raft) Snapshot(index int, snapshot []byte) {
 	if relIndex == len(rf.log)-1 {
 		rf.log = make([]LogEntry, 0)
 	} else {
-		rf.log = rf.log[relIndex:]
+		rf.log = rf.log[relIndex+1:]
 	}
 	rf.persist()
 }

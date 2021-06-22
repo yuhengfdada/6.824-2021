@@ -1021,6 +1021,7 @@ func TestUnreliableChurn2C(t *testing.T) {
 const MAXLOGSIZE = 2000
 
 func snapcommon(t *testing.T, name string, disconnect bool, reliable bool, crash bool) {
+	counter := 1
 	iters := 30
 	servers := 3
 	cfg := make_config(t, servers, !reliable, true)
@@ -1028,7 +1029,8 @@ func snapcommon(t *testing.T, name string, disconnect bool, reliable bool, crash
 
 	cfg.begin(name)
 
-	cfg.one(rand.Int(), servers, true)
+	cfg.one(counter, servers, true)
+	counter += 1
 	leader1 := cfg.checkOneLeader()
 
 	fmt.Printf("start iterations\n")
@@ -1051,11 +1053,16 @@ func snapcommon(t *testing.T, name string, disconnect bool, reliable bool, crash
 		}
 		// send enough to get a snapshot
 		for i := 0; i < SnapShotInterval+1; i++ {
-			cfg.rafts[sender].Start(rand.Int())
+			cfg.rafts[sender].Start(counter)
+			counter += 1
 		}
 		// let applier threads catch up with the Start()'s
-		cfg.one(rand.Int(), servers-1, true)
-
+		cfg.one(counter, servers-1, true)
+		counter += 1
+		fmt.Printf("after iteration's consensus\n")
+		for i := 0; i < len(cfg.rafts); i++ {
+			cfg.rafts[i].PrintCompleteLog()
+		}
 		if cfg.LogSize() >= MAXLOGSIZE {
 			cfg.t.Fatalf("Log size too large")
 		}

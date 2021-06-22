@@ -35,5 +35,4 @@ func (rf *Raft) sendInstall(index int) {
 	}
 	// panic("installSnapshot not implemented")
 	//rf.unlock("installSnapshot RPC sent")
-	return
 }

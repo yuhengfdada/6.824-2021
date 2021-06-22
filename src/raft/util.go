@@ -1,13 +1,15 @@
 package raft
 
 import (
+	"fmt"
 	"log"
 	"math/rand"
+	"strconv"
 	"time"
 )
 
 // Debugging
-const Debug = true
+const Debug = false
 
 func DPrintf(format string, a ...interface{}) (n int, err error) {
 	if Debug {
@@ -16,9 +18,38 @@ func DPrintf(format string, a ...interface{}) (n int, err error) {
 	return
 }
 
+func DPrintfSpecial(format string, a ...interface{}) (n int, err error) {
+	log.Printf(format, a...)
+	return
+}
+
+func (rf *Raft) PrintCompleteLog() {
+	s := fmt.Sprintf("Snapshot: LastIndex: %d LastTerm: %d; Logs: ", rf.lastInstalledIndex, rf.lastInstalledTerm)
+	for index, entry := range rf.log {
+		s += strconv.Itoa(rf.absoluteIndex(index))
+		s += ":"
+		//iAreaId :=
+		if entry.Command == nil {
+			s += "nil"
+		} else {
+			s += strconv.Itoa(entry.Command.(int))
+		}
+		s += " "
+	}
+	rf.loggerSpecial(s)
+}
+
 // Misc
 func min(a int, b int) int {
 	if a > b {
+		return b
+	} else {
+		return a
+	}
+}
+
+func max(a int, b int) int {
+	if a < b {
 		return b
 	} else {
 		return a
@@ -74,6 +105,22 @@ func (rf *Raft) findLogTermByAbsoluteIndex(absoluteIndex int) int {
 	} else {
 		return rf.log[rf.relativeIndex(absoluteIndex)].Term
 	}
+}
+
+func (rf *Raft) containsIndexTerm(absIndex int, term int) bool {
+	if absIndex < rf.lastInstalledIndex {
+		panic("findLogTermByAbsoluteIndex(): invalid index")
+	}
+	inLastSnapshot := (absIndex == rf.lastInstalledIndex && term == rf.lastInstalledTerm)
+	if inLastSnapshot {
+		return true
+	}
+	notBeyondLogLength := rf.relativeIndex(absIndex) < len(rf.log)
+	if !notBeyondLogLength {
+		return false
+	}
+	termMatches := rf.log[rf.relativeIndex(absIndex)].Term == term
+	return termMatches
 }
 
 // Timer
@@ -139,4 +186,9 @@ func (rf *Raft) unlock(format string, a ...interface{}) {
 func (rf *Raft) logger(format string, a ...interface{}) {
 	DPrintf("me: %d, identity:%v, term:%d, leader:%d\n", rf.me, rf.identity, rf.currentTerm, rf.votedFor)
 	DPrintf(format, a...)
+}
+
+func (rf *Raft) loggerSpecial(format string, a ...interface{}) {
+	DPrintfSpecial("me: %d, identity:%v, term:%d, leader:%d\n", rf.me, rf.identity, rf.currentTerm, rf.votedFor)
+	DPrintfSpecial(format, a...)
 }

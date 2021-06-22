@@ -38,7 +38,7 @@ func (rf *Raft) sendRegularHeartbeats() {
 					}
 					rf.unlock("start_HB_change_term")
 				} else if !reply.Success { // if log inconsistency detected, force update
-					rf.forceUpdate(index)
+					go rf.forceUpdate(index)
 				}
 
 			}(index)
@@ -101,11 +101,12 @@ func (rf *Raft) forceUpdate(index int) {
 		}
 		rf.lock("force update failed lock")
 		rf.logger("reply from server %d, with NewNextIndex = %d", index, reply.NewNextIndex)
-
-		if reply.NewNextIndex <= rf.lastInstalledIndex { // extremely slow peer
-			rf.sendInstall(index)
-			return
-		}
+		/*
+			if reply.NewNextIndex <= rf.lastInstalledIndex { // extremely slow peer
+				rf.sendInstall(index)
+				return
+			}
+		*/
 		rf.nextIndex[index] = reply.NewNextIndex
 
 		rf.unlock("force update failed lock")
