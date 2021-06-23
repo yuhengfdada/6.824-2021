@@ -1,7 +1,8 @@
 # 6.824-2021
 6.824, 2021 version. Lab 2 onwards (since they are different from last year)
 
-```Test (2A): initial election ...
+```
+Test (2A): initial election ...
   ... Passed --   4.1  3   60   15388    0
 Test (2A): election after network failure ...
   ... Passed --   7.7  3  166   32226    0
