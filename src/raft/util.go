@@ -24,6 +24,9 @@ func DPrintfSpecial(format string, a ...interface{}) (n int, err error) {
 }
 
 func (rf *Raft) PrintCompleteLog() {
+	if rf.killed() {
+		log.Printf("crashed\n")
+	}
 	s := fmt.Sprintf("Snapshot: LastIndex: %d LastTerm: %d; Logs: ", rf.lastInstalledIndex, rf.lastInstalledTerm)
 	for index, entry := range rf.log {
 		s += strconv.Itoa(rf.absoluteIndex(index))

@@ -210,9 +210,6 @@ func (cfg *config) applierSnap(i int, applyCh chan ApplyMsg) {
 				err_msg = fmt.Sprintf("server %v apply out of order %v", i, m.CommandIndex)
 			}
 			if err_msg != "" {
-				for i := 0; i < len(cfg.rafts); i++ {
-					cfg.rafts[i].PrintCompleteLog()
-				}
 				log.Fatalf("apply error: %v\n", err_msg)
 				cfg.applyErr[i] = err_msg
 				// keep reading after error so that Raft doesn't block
@@ -225,9 +222,6 @@ func (cfg *config) applierSnap(i int, applyCh chan ApplyMsg) {
 				v := m.Command
 				e.Encode(v)
 				cfg.rafts[i].Snapshot(m.CommandIndex, w.Bytes())
-				for i := 0; i < len(cfg.rafts); i++ {
-					cfg.rafts[i].PrintCompleteLog()
-				}
 				fmt.Printf("config: snapshot created, last included index %d\n", m.CommandIndex)
 			}
 		} else {
@@ -238,6 +232,17 @@ func (cfg *config) applierSnap(i int, applyCh chan ApplyMsg) {
 			// DPrintf("Ignore: Index %v lastApplied %v\n", m.CommandIndex, lastApplied)
 
 		}
+	}
+}
+
+func (cfg *config) printall() {
+	for i := 0; i < len(cfg.rafts); i++ {
+		if cfg.rafts[i] == nil {
+			log.Printf("wtf, server %d crashed!\n", i)
+		} else {
+			cfg.rafts[i].PrintCompleteLog()
+		}
+
 	}
 }
 

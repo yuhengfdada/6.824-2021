@@ -35,4 +35,7 @@ func (rf *Raft) sendInstall(index int) {
 	}
 	// panic("installSnapshot not implemented")
 	//rf.unlock("installSnapshot RPC sent")
+	rf.lock("sendInstall: update nextIndex")
+	rf.nextIndex[index] = rf.lastInstalledIndex + 1
+	rf.unlock("sendInstall: update nextIndex")
 }

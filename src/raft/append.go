@@ -43,7 +43,7 @@ func (rf *Raft) sendRegularHeartbeats() {
 
 			}(index)
 		}
-		time.Sleep(150 * time.Millisecond) // Heartbeat interval
+		time.Sleep(100 * time.Millisecond) // Heartbeat interval
 	}
 }
 
@@ -64,6 +64,9 @@ func (rf *Raft) forceUpdate(index int) {
 			// rf.logger("nextIndex stale; go sendInstall RPC")
 			rf.sendInstall(index)
 			// rf.unlock("force update lock_stale nextIndex")
+			// rf.lock("back to force update")
+			// rf.nextIndex[index] = rf.lastInstalledIndex + 1
+			// nextIndex = rf.nextIndex[index]
 			return
 		}
 		args := AppendEntriesArgs{}
